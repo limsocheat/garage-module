@@ -1,0 +1,30 @@
+{
+    "name": "limsocheat/garage",
+    "description": "",
+    "authors": [
+        {
+            "name": "Lim Socheat",
+            "email": "limsocheat111@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Garage\\": "app/",
+            "Modules\\Garage\\Database\\Factories\\": "database/factories/",
+            "Modules\\Garage\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Garage\\Tests\\": "tests/"
+        }
+    }
+}
