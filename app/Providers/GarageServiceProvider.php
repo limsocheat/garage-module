@@ -2,8 +2,9 @@
 
 namespace Modules\Garage\Providers;
 
-use Nwidart\Modules\Support\ModuleServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Nwidart\Modules\Support\ModuleServiceProvider;
 
 class GarageServiceProvider extends ModuleServiceProvider
 {
@@ -16,6 +17,19 @@ class GarageServiceProvider extends ModuleServiceProvider
      * The lowercase version of the module name.
      */
     protected string $nameLower = 'garage';
+
+    /**
+     * Bootstrap the module and register its polymorphic morph aliases.
+     */
+    public function boot(): void
+    {
+        parent::boot();
+
+        Relation::morphMap([
+            'vehicle' => \Modules\Garage\Models\Vehicle::class,
+            'vehicle_size' => \Modules\Garage\Models\VehicleSize::class,
+        ]);
+    }
 
     /**
      * Command classes to register.
@@ -36,8 +50,8 @@ class GarageServiceProvider extends ModuleServiceProvider
 
     /**
      * Define module schedules.
-     * 
-     * @param $schedule
+     *
+     * @param  $schedule
      */
     // protected function configureSchedules(Schedule $schedule): void
     // {
