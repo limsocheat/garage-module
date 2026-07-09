@@ -37,7 +37,7 @@ class Vehicle extends Model implements Searchable
 	 *
 	 * @var string
 	 */
-	protected $table = 'vehicles';
+	protected $table = 'garage_vehicles';
 
 	/**
 	 * The attributes that are mass assignable.

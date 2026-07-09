@@ -26,8 +26,8 @@ class GarageServiceProvider extends ModuleServiceProvider
         parent::boot();
 
         Relation::morphMap([
-            'vehicle' => \Modules\Garage\Models\Vehicle::class,
-            'vehicle_size' => \Modules\Garage\Models\VehicleSize::class,
+            'garage_vehicle' => \Modules\Garage\Models\Vehicle::class,
+            'garage_vehicle_size' => \Modules\Garage\Models\VehicleSize::class,
         ]);
     }
 

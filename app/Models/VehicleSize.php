@@ -31,7 +31,7 @@ class VehicleSize extends Model
 	 *
 	 * @var string
 	 */
-	protected $table = 'vehicle_sizes';
+	protected $table = 'garage_vehicle_sizes';
 
 	/**
 	 * The attributes that are mass assignable.
