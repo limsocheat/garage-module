@@ -11,6 +11,8 @@ class GarageDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call([]);
+        $this->call([
+            PermissionTableSeeder::class,
+        ]);
     }
 }

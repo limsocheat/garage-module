@@ -4,6 +4,8 @@ namespace Modules\Garage\Providers;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Routing\Router;
+use Modules\Garage\Http\Middleware\DashboardMiddleware;
 use Nwidart\Modules\Support\ModuleServiceProvider;
 
 class GarageServiceProvider extends ModuleServiceProvider
@@ -29,6 +31,10 @@ class GarageServiceProvider extends ModuleServiceProvider
             'garage_vehicle' => \Modules\Garage\Models\Vehicle::class,
             'garage_vehicle_size' => \Modules\Garage\Models\VehicleSize::class,
         ]);
+
+        // Register the Garage sidebar menu on dashboard requests.
+        $this->app->make(Router::class)
+            ->pushMiddlewareToGroup('dashboard', DashboardMiddleware::class);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Modules\Garage\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,19 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->mapApiRoutes();
         $this->mapWebRoutes();
+        $this->mapDashboardRoutes();
+    }
+
+    /**
+     * Define the back-office (Inertia) routes, scoped under {locale}/dashboard
+     * with the `dashboard.` name prefix.
+     */
+    protected function mapDashboardRoutes(): void
+    {
+        Route::middleware('dashboard')
+            ->prefix(LaravelLocalization::setLocale().'/dashboard')
+            ->name('dashboard.')
+            ->group(module_path($this->name, '/routes/dashboard.php'));
     }
 
     /**
