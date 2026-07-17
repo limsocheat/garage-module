@@ -21,6 +21,8 @@ class PermissionTableSeeder extends Seeder
             PermissionEnum::DELETE_GARAGE_VEHICLE,
             PermissionEnum::RESTORE_GARAGE_VEHICLE,
             PermissionEnum::FORCE_DELETE_GARAGE_VEHICLE,
+            PermissionEnum::VIEW_ANY_GARAGE_SERVICE_JOB,
+            PermissionEnum::VIEW_GARAGE_SERVICE_JOB,
         ];
 
         foreach ($permissions as $permission) {

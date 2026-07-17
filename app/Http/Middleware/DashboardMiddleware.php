@@ -35,6 +35,16 @@ class DashboardMiddleware
             'dashboard.garage.vehicles.*'
         );
 
+        MenuService::addSubmenuItem(
+            'primary',
+            'garage',
+            __('Service Jobs'),
+            route('dashboard.garage.service-jobs.index'),
+            20,
+            PermissionEnum::VIEW_ANY_GARAGE_SERVICE_JOB->value,
+            'dashboard.garage.service-jobs.*'
+        );
+
         return $next($request);
     }
 }

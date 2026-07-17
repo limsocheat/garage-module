@@ -7,6 +7,7 @@ use App\Traits\Tenancy\BelongsToMorphTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Customer\Models\Customer;
 use Spatie\Activitylog\LogOptions;
@@ -47,9 +48,12 @@ class Vehicle extends Model implements Searchable
 	protected $fillable = [
 		'customer_id',
 		'vehicle_size_id',
+		'client_uuid',
 		'plate_number',
 		'make',
 		'model',
+		'vin',
+		'size_code',
 		'color',
 		'year',
 		'notes',
@@ -82,6 +86,23 @@ class Vehicle extends Model implements Searchable
 	public function size(): BelongsTo
 	{
 		return $this->belongsTo(VehicleSize::class, 'vehicle_size_id');
+	}
+
+	/**
+	 * The service jobs captured for this vehicle (its service history).
+	 */
+	public function serviceJobs(): HasMany
+	{
+		return $this->hasMany(ServiceJob::class);
+	}
+
+	/**
+	 * The effective size code: the resolved taxonomy code, else the captured
+	 * raw code the tech picked at check-in.
+	 */
+	public function getEffectiveSizeCodeAttribute(): ?string
+	{
+		return $this->size?->code ?? $this->size_code;
 	}
 
 	/**
@@ -168,6 +189,16 @@ class Vehicle extends Model implements Searchable
 	public function scopeDefault($query)
 	{
 		return $query->where('is_default', true);
+	}
+
+	/**
+	 * Scope to active (non-archived) vehicles.
+	 *
+	 * @param  \Illuminate\Database\Eloquent\Builder  $query
+	 */
+	public function scopeActive($query)
+	{
+		return $query->where('active', true);
 	}
 
 	/**

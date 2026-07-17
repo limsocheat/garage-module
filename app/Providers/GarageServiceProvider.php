@@ -30,6 +30,9 @@ class GarageServiceProvider extends ModuleServiceProvider
         Relation::morphMap([
             'garage_vehicle' => \Modules\Garage\Models\Vehicle::class,
             'garage_vehicle_size' => \Modules\Garage\Models\VehicleSize::class,
+            'garage_service_job' => \Modules\Garage\Models\ServiceJob::class,
+            'garage_service_job_line' => \Modules\Garage\Models\ServiceJobLine::class,
+            'garage_service_job_media' => \Modules\Garage\Models\ServiceJobMedia::class,
         ]);
 
         // Register the Garage sidebar menu on dashboard requests.

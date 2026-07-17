@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Garage\Http\Controllers\Dashboard\ServiceJobController;
 use Modules\Garage\Http\Controllers\Dashboard\VehicleController;
 
 /*
@@ -17,4 +18,9 @@ Route::group(['prefix' => 'garage', 'as' => 'garage.', 'middleware' => 'tenant.o
 
     Route::resource('vehicles', VehicleController::class)
         ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+
+    // Captured service jobs — read-only (created by the Garage capture app).
+    Route::resource('service-jobs', ServiceJobController::class)
+        ->only(['index', 'show'])
+        ->parameters(['service-jobs' => 'service_job']);
 });
