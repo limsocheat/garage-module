@@ -13,6 +13,8 @@ class GarageDatabaseSeeder extends Seeder
     {
         $this->call([
             PermissionTableSeeder::class,
+            // Must run after permissions — the bay roles are granted them.
+            RoleTableSeeder::class,
         ]);
     }
 }

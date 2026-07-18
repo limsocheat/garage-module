@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Garage\Http\Controllers\API\V1\Auth\LoginController;
 use Modules\Garage\Http\Controllers\API\V1\MediaController;
 use Modules\Garage\Http\Controllers\API\V1\ServiceJobController;
 use Modules\Garage\Http\Controllers\API\V1\VehicleController;
@@ -17,6 +18,19 @@ use Modules\Garage\Http\Controllers\GarageController;
 | client uuid — a retried submit resolves to one record.
 */
 Route::prefix('garage/v1')->name('garage.v1.')->group(function () {
+	// ─── Auth ─────────────────────────────────────────────────────────────
+	// Public login. Gates on the Garage role allowlist, then delegates to the
+	// POS terminal pipeline for the shared guards + canonical token payload.
+	Route::post('auth/login', [LoginController::class, 'login'])->name('auth.login');
+
+	// User-level routes: authenticated but NOT tenant-scoped, so a technician
+	// whose tenant binding is still being chosen can refresh/log out.
+	Route::middleware(['auth:sanctum'])->group(function () {
+		Route::get('auth/user', [LoginController::class, 'user'])->name('auth.user');
+		Route::post('auth/logout', [LoginController::class, 'logout'])->name('auth.logout');
+	});
+
+	// ─── Tenant-scoped capture surface ────────────────────────────────────
 	Route::middleware(['auth:sanctum', 'tenant.required:company'])->group(function () {
 		// Vehicle check-in (GR-02) + service history (GR-06).
 		Route::get('vehicles', [VehicleController::class, 'index'])->name('vehicles.index');
